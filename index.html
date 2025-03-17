@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SearchCourt - Legal Judgment Search Platform</title>
+    <style>
+        /* Your CSS styles (as provided) */
+        :root {
+            --primary-blue: #1a73e8;
+            --text-dark: #202124;
+            --text-light: #5f6368;
+        }
+        /* ... (rest of your CSS) ... */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: rgb(247, 244, 242);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        /* Header & Navigation */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgb(255, 237, 117);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: left;
+            gap: 0.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-blue);
+        }
+
+        .login-btn {
+            background: var(--primary-blue);
+            color: white;
+            padding: 3px 15px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            margin-left: 20px;
+        }
+
+        .login-btn:hover {
+            background: #f8f8f8;
+            transform: translateY(-2px);
+        }
+
+        /* Hero Section */
+        .hero-section {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            animation: fadeIn 1s ease-out;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: var(--text-dark);
+            margin-bottom: 2rem;
+        }
+
+        .search-container {
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            font-size: 1.1rem;
+            border: 1px solid #dfe1e5;
+            border-radius: 24px;
+            outline: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 1px 6px rgb(245, 213, 8);
+        }
+
+        .search-box:hover,
+        .search-box:focus {
+            box-shadow: 0 1px 6px rgba(10, 67, 239, 0.973);
+        }
+
+        /* Features Section */
+        .features-section {
+            padding: 4rem 2rem;
+            background: #f8f9fa;
+        }
+
+        .features-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .feature-box {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .feature-box:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-box img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+            transition: opacity 0.5s;
+        }
+
+        .feature-box h3 {
+            color: var(--text-dark);
+            margin-bottom: 1rem;
+        }
+
+        .feature-box p {
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        footer {
+            background: rgb(255, 237, 117);
+            color: rgb(0, 0, 0);
+            padding: 3rem 2rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+        }
+
+        .footer-info h2 {
+            margin-bottom: 1rem;
+        }
+
+        .footer-contact h3 {
+            margin-bottom: 1rem;
+        }
+
+        .footer-contact p {
+            margin-bottom: 0.5rem;
+        }
+
+        .social-links {
+            margin-top: 1rem;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-links a {
+            color: rgb(0, 0, 0);
+            text-decoration: none;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Chatbot Styles */
+        .chatbot-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .chat-button {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            transition: transform 0.3s;
+        }
+
+        .chat-button:hover {
+            transform: scale(1.1);
+        }
+
+        .chat-window {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            width: 350px;
+            height: 500px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .chat-window.active {
+            display: flex;
+        }
+
+        .chat-header {
+            background: var(--primary-blue);
+            color: white;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chat-header h3 {
+            margin: 0;
+            font-size: 16px;
+        }
+
+        .close-chat {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 20px;
+        }
+
+        .chat-messages {
+            flex-grow: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .message {
+            margin-bottom: 15px;
+            max-width: 80%;
+        }
+
+        .user-message {
+            margin-left: auto;
+            background: var(--primary-blue);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 15px 15px 0 15px;
+        }
+
+        .bot-message {
+            background: #f0f0f0;
+            padding: 10px 15px;
+            border-radius: 15px 15px 15px 0;
+        }
+
+        .chat-input {
+            padding: 15px;
+            border-top: 1px solid #eee;
+            display: flex;
+            gap: 10px;
+        }
+
+        .chat-input input {
+            flex-grow: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            outline: none;
+        }
+
+        .chat-input button {
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
+        /* Report Crime Modal Styles */
+        .report-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        .report-modal.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .report-container {
+            background: white;
+            width: 90%;
+            height: 90%;
+            border-radius: 12px;
+            padding: 2rem;
+            position: relative;
+            transform: translateY(-50px);
+            opacity: 0;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .report-modal.active .report-container {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .close-report {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--text-dark);
+        }
+
+        .upload-section {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .upload-area {
+            width: 100%;
+            max-width: 600px;
+            height: 300px;
+            border: 2px dashed var(--primary-blue);
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 2rem 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .upload-area:hover {
+            background: #f0f7ff;
+            border-color: #0056b3;
+        }
+
+        .upload-area i {
+            font-size: 48px;
+            color: var(--primary-blue);
+            margin-bottom: 1rem;
+        }
+
+        .upload-text {
+            color: var(--text-dark);
+            margin: 1rem 0;
+        }
+
+        #fileInput {
+            display: none;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .features-container {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 2rem;
+                text-align: center;
+            }
+        }
+        .search-results {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            max-height: 400px;
+            overflow-y: auto;
+            display: none;
+            z-index: 1000;
+        }
+        .search-result-item {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+        }
+        .search-result-item:hover {
+            background: #f5f5f5;
+        }
+        .search-result-item h3 {
+            margin: 0;
+            color: var(--primary-blue);
+        }
+        .search-result-item p {
+            margin: 5px 0 0;
+            color: var(--text-light);
+            font-size: 0.9em;
+        }
+        /* ... (rest of your CSS) ... */
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <img src="E:\Rahul\INNOVATEX 2025\logo.png" height="80">
+            </div>
+            <div class="nav-links">
+                <a href="#home">Home</a>
+                <a href="#search">Search</a>
+                <a href="#popular">Popular News</a>
+                <a href="#about">About Us</a>
+                <a href="#" id="reportCrime">Report Crime</a>
+                <a href="login.html" class="login-btn" id="loginBtn">Login</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Report Crime Modal -->
+    <div class="report-modal" id="reportModal">
+        <div class="report-container">
+            <button class="close-report" id="closeReport">×</button>
+            <div class="upload-section">
+                <h2>Report Crime Anonymously</h2>
+                <p class="upload-text">This data is under Blockchain Technology</p>
+                <div class="upload-area" id="uploadArea">
+                    <i>📄</i>
+                    <p>Drag and drop files here</p>
+                    <p>or</p>
+                    <button style="background: var(--primary-blue); color: white; padding: 10px 20px; border: none; border-radius: 20px; cursor: pointer; margin-top: 10px;">
+                        Choose Files
+                    </button>
+                </div>
+                <input type="file" id="fileInput" multiple>
+                <p class="upload-text">Supported formats: PDF, DOC, DOCX, JPG, PNG</p>
+                
+                <!-- Added text box -->
+                <div style="width: 100%; max-width: 600px; margin-top: 2rem;">
+                    <textarea 
+                        style="width: 100%; 
+                               padding: 15px; 
+                               border: 2px solid var(--primary-blue); 
+                               border-radius: 8px; 
+                               min-height: 100px; 
+                               margin-bottom: 1rem;
+                               font-family: inherit;
+                               resize: vertical;"
+                        placeholder="Add any additional details about the crime report..."
+                    ></textarea>
+                    <button style="background: var(--primary-blue); 
+                                 color: white; 
+                                 padding: 10px 20px; 
+                                 border: none; 
+                                 border-radius: 20px; 
+                                 cursor: pointer;
+                                 width: 100%;">
+                        Submit Report
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <main>
+        <section class="hero-section" id="search">
+            <h1>What can I help with?</h1>
+            <div class="search-container">
+                <input type="text" class="search-box" id="searchInput" placeholder="Search for cases, topics, or legal documents...">
+                <div class="search-results" id="searchResults"></div>
+            </div>
+        </section>
+
+        <section class="features-section" id="popular">
+            <h2 style="text-align: left; margin-bottom: 2rem;">Popular News</h2>
+            <div class="features-container">
+                <div class="feature-box">
+                    <img src="E:\Rahul\INNOVATEX 2025\ctber fraud.jpg" alt="Cyber Fraud Case">
+                    <h3>Cyber Fraud Case</h3>
+                    <p>A major cyber fraud case where hackers stole millions through phishing scams. The accused used advanced AI-generated fake identities to deceive financial institutions.</p>
+                </div>
+                <div class="feature-box">
+                    <img src="E:\Rahul\INNOVATEX 2025\High profile.jpeg" alt="High-Profile Murder Case">
+                    <h3>High-Profile Murder Case</h3>
+                    <p>A sensational murder case where forensic analysis played a key role in identifying the suspect. The judgment set a new legal precedent in homicide cases.</p>
+                </div>
+                <div class="feature-box">
+                    <img src="E:\Rahul\INNOVATEX 2025\landmark.jpeg" alt="Landmark Corruption Case">
+                    <h3>Landmark Corruption Case</h3>
+                    <p>A landmark corruption case involving high-ranking officials and money laundering. The Supreme Court's ruling introduced stricter regulations for corporate transparency.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer id="about">
+        <div class="footer-content">
+            <div class="footer-info">
+                <h2>TEAM VXM</h2>
+                <div class="social-links">
+                    <a href="#linkedin">LinkedIn</a>
+                    <a href="#twitter">Twitter</a>
+                    <a href="#instagram">Instagram</a>
+                </div>
+            </div>
+            <div class="footer-contact">
+                <h3>Contact Us</h3>
+                <p>Email: support@searchcourt.com</p>
+                <p>Phone: +91 XXXXXXXXXX</p>
+                <p>Address: SearchCourt HQ, Bangalore, India</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Chatbot Interface -->
+    <div class="chatbot-container">
+        <button class="chat-button" id="chatButton">💬</button>
+        <div class="chat-window" id="chatWindow">
+            <div class="chat-header">
+                <h3>SearchCourt Assistant</h3>
+                <button class="close-chat" id="closeChat">×</button>
+            </div>
+            <div class="chat-messages" id="chatMessages">
+                <div class="message bot-message">
+                    Hello! How can I help you with legal information today?
+                </div>
+            </div>
+            <div class="chat-input">
+                <input type="text" id="messageInput" placeholder="Type your message...">
+                <button id="sendMessage">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Check login state when page loads
+        window.addEventListener('load', function() {
+            const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+            const loginBtn = document.getElementById('loginBtn');
+            
+            if (isLoggedIn) {
+                const userEmail = localStorage.getItem('userEmail');
+                loginBtn.textContent = `Logout (${userEmail})`;
+                loginBtn.href = '#';
+                loginBtn.onclick = function(e) {
+                    e.preventDefault();
+                    localStorage.removeItem('isLoggedIn');
+                    localStorage.removeItem('userEmail');
+                    window.location.reload();
+                };
+            } else {
+                loginBtn.textContent = 'Login';
+                loginBtn.href = 'login.html';
+                loginBtn.onclick = null;
+            }
+        });
+
+        // Add smooth scroll behavior
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                // Handle home link differently
+                if (this.getAttribute('href') === '#home') {
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                    return;
+                }
+
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                    
+                    // Add blink effect for search section
+                    if (this.getAttribute('href') === '#search') {
+                        const searchBox = document.querySelector('.search-box');
+                        searchBox.style.transition = 'box-shadow 0.5s ease-in-out';
+                        searchBox.style.boxShadow = '0 0 20px rgba(26, 115, 232, 0.8)';
+                        setTimeout(() => {
+                            searchBox.style.boxShadow = '0 1px 6px rgb(245, 213, 8)';
+                        }, 2000);
+                    }
+                }
+            });
+        });
+
+        // Search box animation
+        const searchBox = document.querySelector('.search-box');
+        searchBox.addEventListener('focus', () => {
+            searchBox.style.transform = 'scale(1.02)';
+        });
+        searchBox.addEventListener('blur', () => {
+            searchBox.style.transform = 'scale(1)';
+        });
+
+        // Chatbot functionality
+        const chatButton = document.getElementById('chatButton');
+        const chatWindow = document.getElementById('chatWindow');
+        const closeChat = document.getElementById('closeChat');
+        const messageInput = document.getElementById('messageInput');
+        const sendMessage = document.getElementById('sendMessage');
+        const chatMessages = document.getElementById('chatMessages');
+
+        chatButton.addEventListener('click', () => {
+            chatWindow.classList.add('active');
+        });
+
+        closeChat.addEventListener('click', () => {
+            chatWindow.classList.remove('active');
+        });
+
+        function addMessage(message, isUser = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message');
+            messageDiv.classList.add(isUser ? 'user-message' : 'bot-message');
+            messageDiv.textContent = message;
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // Search functionality
+        const searchInput = document.getElementById('searchInput');
+        const searchResults = document.getElementById('searchResults');
+        let searchTimeout;
+
+        searchInput.addEventListener('input', function() {
+            clearTimeout(searchTimeout);
+            const query = this.value.trim();
+            
+            if (query.length < 2) {
+                searchResults.style.display = 'none';
+                return;
+            }
+
+            searchTimeout = setTimeout(() => {
+                fetch(`/search?q=${encodeURIComponent(query)}`)
+                    .then(response => response.json())
+                    .then(results => {
+                        searchResults.innerHTML = '';
+                        if (results.length > 0) {
+                            results.forEach(result => {
+                                const div = document.createElement('div');
+                                div.className = 'search-result-item';
+                                div.innerHTML = `
+                                    <p>${result.description}</p>
+                                    <small>Category: ${result.category}</small>
+                                `;
+                                searchResults.appendChild(div);
+                            });
+                            searchResults.style.display = 'block';
+                        } else {
+                            searchResults.style.display = 'none';
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        searchResults.style.display = 'none';
+                    });
+            }, 300);
+        });
+
+        // Close search results when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
+                searchResults.style.display = 'none';
+            }
+        });
+
+        // Chatbot message handling
+        function handleUserMessage() {
+            const message = messageInput.value.trim();
+            if (message) {
+                addMessage(message, true);
+                messageInput.value = '';
+                
+                fetch('/chatbot', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ message: message })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    addMessage(data.response);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    addMessage('Sorry, I encountered an error. Please try again.');
+                });
+            }
+        }
+
+        sendMessage.addEventListener('click', handleUserMessage);
+        messageInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                handleUserMessage();
+            }
+        });
+
+        // Report Crime Modal Functionality
+        const reportCrime = document.getElementById('reportCrime');
+        const reportModal = document.getElementById('reportModal');
+        const closeReport = document.getElementById('closeReport');
+        const uploadArea = document.getElementById('uploadArea');
+        const fileInput = document.getElementById('fileInput');
+
+        reportCrime.addEventListener('click', (e) => {
+            e.preventDefault();
+            reportModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+
+        closeReport.addEventListener('click', () => {
+            reportModal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        });
+
+        uploadArea.addEventListener('click', () => {
+            fileInput.click();
+        });
+
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.style.background = '#f0f7ff';
+        });
+
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.style.background = 'white';
+        });
+
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.style.background = 'white';
+            const files = e.dataTransfer.files;
+            handleFiles(files);
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            const files = e.target.files;
+            handleFiles(files);
+        });
+
+        function handleFiles(files) {
+            // Here you can implement the file upload logic
+            console.log('Files to upload:', files);
+            // Add your file upload implementation here
+        }
+
+        // Add GSAP for scroll animations
+        const script = document.createElement('script');
+        script.src = 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js';
+        script.onload = () => {
+            // Typewriter effect for hero text
+            const heroText = document.querySelector('.hero-section h1');
+            const text = heroText.textContent;
+            heroText.textContent = '';
+            let i = 0;
+            
+            function typeWriter() {
+                if (i < text.length) {
+                    heroText.textContent += text.charAt(i);
+                    i++;
+                    setTimeout(typeWriter, 100);
+                }
+            }
+            typeWriter();
+        };
+        document.head.appendChild(script);
+
+        // Dark mode toggle
+        const darkModeToggle = document.createElement('button');
+        darkModeToggle.innerHTML = '🌙';
+        darkModeToggle.style.position = 'fixed';
+        darkModeToggle.style.top = '20px';
+        darkModeToggle.style.right = '20px';
+        darkModeToggle.style.zIndex = '1001';
+        darkModeToggle.style.background = 'none';
+        darkModeToggle.style.border = 'none';
+        darkModeToggle.style.fontSize = '24px';
+        darkModeToggle.style.cursor = 'pointer';
+        darkModeToggle.style.padding = '10px';
+        darkModeToggle.style.borderRadius = '50%';
+        darkModeToggle.style.transition = 'all 0.3s ease';
+        document.body.appendChild(darkModeToggle);
+
+        let isDarkMode = false;
+        darkModeToggle.addEventListener('click', () => {
+            isDarkMode = !isDarkMode;
+            document.body.style.transition = 'all 0.3s ease';
+            if (isDarkMode) {
+                document.body.style.backgroundColor = '#1a1a1a';
+                document.body.style.color = '#ffffff';
+                darkModeToggle.innerHTML = '☀️';
+                document.querySelectorAll('.feature-box, .search-box, .chat-window').forEach(el => {
+                    el.style.backgroundColor = '#2d2d2d';
+                    el.style.color = '#ffffff';
+                });
+            } else {
+                document.body.style.backgroundColor = 'rgb(247, 244, 242)';
+                document.body.style.color = 'var(--text-dark)';
+                darkModeToggle.innerHTML = '🌙';
+                document.querySelectorAll('.feature-box, .search-box, .chat-window').forEach(el => {
+                    el.style.backgroundColor = '#ffffff';
+                    el.style.color = 'var(--text-dark)';
+                });
+            }
+        });
+
+        // Enhanced hover animations
+        document.querySelectorAll('button, .nav-links a').forEach(el => {
+            el.style.transition = 'all 0.3s ease';
+            el.addEventListener('mouseenter', () => {
+                el.style.transform = 'scale(1.05)';
+            });
+            el.addEventListener('mouseleave', () => {
+                el.style.transform = 'scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>
