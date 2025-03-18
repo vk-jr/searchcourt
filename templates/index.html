@@ -1,0 +1,1751 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SearchCourt - Legal Judgment Search Platform</title>
+    <style>
+        /* Your CSS styles (as provided) */
+        :root {
+            --primary-blue: #1a73e8;
+            --text-dark: #202124;
+            --text-light: #5f6368;
+        }
+        /* ... (rest of your CSS) ... */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: rgb(255, 237, 117);
+            color: var(--text-dark);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* Header & Navigation */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgb(255, 237, 117);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: left;
+            gap: 0.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-blue);
+        }
+
+        .login-btn {
+            background: var(--primary-blue);
+            color: white;
+            padding: 3px 10px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            margin-left: 20px;
+        }
+
+        .login-btn:hover {
+            background: #f8f8f8;
+            transform: translateY(-2px);
+        }
+
+        /* Hero Section */
+        .hero-section {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            animation: fadeIn 1s ease-out;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: var(--text-dark);
+            margin-bottom: 2rem;
+        }
+
+        .search-container {
+            width: 100%;
+            max-width: 600px;
+            position: relative;
+            transition: transform 0.3s ease;
+            transform: translateY(0);
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            font-size: 1.1rem;
+            border: 1px solid #dfe1e5;
+            border-radius: 24px;
+            outline: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 1px 6px rgb(245, 213, 8);
+        }
+
+        .search-box:hover,
+        .search-box:focus {
+            box-shadow: 0 1px 6px rgba(10, 67, 239, 0.973);
+        }
+
+        /* Features Section */
+        .features-section {
+            padding: 4rem 2rem;
+            background: #f8f9fa;
+        }
+
+        .features-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .feature-box {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+            animation: fadeIn 1s ease-out;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .feature-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .feature-box img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-box:hover img {
+            transform: scale(1.02);
+        }
+
+        .feature-box h3 {
+            color: var(--text-dark);
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+
+        .feature-box p {
+            color: var(--text-light);
+            line-height: 1.6;
+            flex-grow: 1;
+        }
+
+        /* Footer */
+        footer {
+            background: rgb(255, 237, 117);
+            color: rgb(0, 0, 0);
+            padding: 3rem 2rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+        }
+
+        .footer-info h2 {
+            margin-bottom: 1rem;
+        }
+
+        .footer-contact h3 {
+            margin-bottom: 1rem;
+        }
+
+        .footer-contact p {
+            margin-bottom: 0.5rem;
+        }
+
+        .social-links {
+            margin-top: 1rem;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-links a {
+            color: rgb(0, 0, 0);
+            text-decoration: none;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Chatbot Styles */
+        .chatbot-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .chat-button {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            transition: transform 0.3s;
+        }
+
+        .chat-button:hover {
+            transform: scale(1.1);
+        }
+
+        .chat-window {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            width: 350px;
+            height: 500px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .chat-window.active {
+            display: flex;
+        }
+
+        .chat-header {
+            background: var(--primary-blue);
+            color: white;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chat-header h3 {
+            margin: 0;
+            font-size: 16px;
+        }
+
+        .close-chat {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 20px;
+        }
+
+        .chat-messages {
+            flex-grow: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .message {
+            margin-bottom: 15px;
+            max-width: 80%;
+        }
+
+        .user-message {
+            margin-left: auto;
+            background: var(--primary-blue);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 15px 15px 0 15px;
+        }
+
+        .bot-message {
+            background: #f0f0f0;
+            padding: 10px 15px;
+            border-radius: 15px 15px 15px 0;
+        }
+
+        .chat-input {
+            padding: 15px;
+            border-top: 1px solid #eee;
+            display: flex;
+            gap: 10px;
+        }
+
+        .chat-input input {
+            flex-grow: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            outline: none;
+        }
+
+        .chat-input button {
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
+        /* Report Crime Modal Styles */
+        .report-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        .report-modal.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .report-container {
+            background: white;
+            width: 90%;
+            height: 90%;
+            border-radius: 12px;
+            padding: 2rem;
+            position: relative;
+            transform: translateY(-50px);
+            opacity: 0;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .report-modal.active .report-container {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .close-report {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--text-dark);
+        }
+
+        .upload-section {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .upload-area {
+            width: 100%;
+            max-width: 600px;
+            height: 300px;
+            border: 2px dashed var(--primary-blue);
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 2rem 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .upload-area:hover {
+            background: #f0f7ff;
+            border-color: #0056b3;
+        }
+
+        .upload-area i {
+            font-size: 48px;
+            color: var(--primary-blue);
+            margin-bottom: 1rem;
+        }
+
+        .upload-text {
+            color: var(--text-dark);
+            margin: 1rem 0;
+        }
+
+        #fileInput {
+            display: none;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .features-container {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 2rem;
+                text-align: center;
+            }
+        }
+
+        /* Additional Responsive Styles */
+        @media (max-width: 1200px) {
+            .features-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero-section {
+                padding: 1rem;
+            }
+
+            .search-container {
+                width: 90%;
+                margin: 0 auto;
+            }
+
+            .search-box {
+                font-size: 1rem;
+                padding: 0.8rem 1.2rem;
+            }
+
+            .feature-box {
+                padding: 1.5rem;
+            }
+
+            .feature-box img {
+                height: 150px;
+            }
+
+            .chat-window {
+                width: 90%;
+                height: 80vh;
+                bottom: 80px;
+                right: 5%;
+            }
+
+            .result-container, .report-container {
+                width: 95%;
+                padding: 1rem;
+            }
+
+            .result-content h2 {
+                font-size: 1.5rem;
+            }
+
+            .result-content h3 {
+                font-size: 1.2rem;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 80px;
+                left: 0;
+                right: 0;
+                background: rgb(255, 237, 117);
+                padding: 1rem;
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+                display: none;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .menu-toggle {
+                display: block;
+                background: none;
+                border: none;
+                font-size: 24px;
+                cursor: pointer;
+                color: var(--text-dark);
+            }
+
+            .logo img {
+                height: 60px;
+            }
+
+            .footer-content {
+                text-align: center;
+            }
+
+            .social-links {
+                justify-content: center;
+            }
+        }
+
+        /* Dark Mode Responsive Adjustments */
+        @media (max-width: 576px) and (prefers-color-scheme: dark) {
+            .nav-links {
+                background: #2d2d2d;
+            }
+
+            .menu-toggle {
+                color: #ffffff;
+            }
+        }
+
+        /* Tablet Specific Adjustments */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .features-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .search-container {
+                max-width: 80%;
+            }
+
+            .chat-window {
+                width: 400px;
+            }
+        }
+
+        /* Landscape Mode Adjustments */
+        @media (max-height: 500px) and (orientation: landscape) {
+            .hero-section {
+                height: auto;
+                padding: 4rem 1rem;
+            }
+
+            .chat-window {
+                height: 90vh;
+            }
+
+            .feature-box img {
+                height: 120px;
+            }
+        }
+        .search-results {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            max-height: 400px;
+            overflow-y: auto;
+            display: none;
+            z-index: 1000;
+            margin-top: 10px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .search-results.active {
+            opacity: 1;
+        }
+        .search-result-item {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+        }
+        .search-result-item:hover {
+            background: #f5f5f5;
+        }
+        .search-result-item h3 {
+            margin: 0;
+            color: var(--primary-blue);
+        }
+        .search-result-item p {
+            margin: 5px 0 0;
+            color: var(--text-light);
+            font-size: 0.9em;
+        }
+        /* Search Result Modal Styles */
+        .result-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        .result-modal.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .result-container {
+            background: white;
+            width: 90%;
+            max-width: 800px;
+            max-height: 80vh;
+            border-radius: 12px;
+            padding: 2rem;
+            position: relative;
+            transform: translateY(-50px);
+            opacity: 0;
+            transition: all 0.3s ease-in-out;
+            overflow-y: auto;
+        }
+
+        .result-modal.active .result-container {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .close-result {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--text-dark);
+        }
+
+        .result-content {
+            margin-top: 20px;
+        }
+
+        .result-content h2 {
+            color: var(--primary-blue);
+            margin-bottom: 1rem;
+        }
+
+        .result-content p {
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .result-meta {
+            color: var(--text-light);
+            font-size: 0.9em;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #eee;
+        }
+        /* ... (rest of your CSS) ... */
+
+        /* Mobile Controls Styles */
+        .mobile-controls {
+            display: none;
+            gap: 15px;
+            align-items: center;
+            margin-left: auto;
+        }
+
+        .dark-mode-toggle, .menu-toggle {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+        }
+
+        .dark-mode-toggle:hover, .menu-toggle:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 576px) {
+            .mobile-controls {
+                display: flex;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 80px;
+                left: 0;
+                right: 0;
+                background: rgb(255, 237, 117);
+                padding: 1.5rem;
+                flex-direction: column;
+                align-items: center;
+                gap: 1.2rem;
+                display: none;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+                border-radius: 0 0 20px 20px;
+                animation: slideDown 0.3s ease-out;
+            }
+
+            @keyframes slideDown {
+                from {
+                    transform: translateY(-10px);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateY(0);
+                    opacity: 1;
+                }
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-links a {
+                width: 100%;
+                text-align: center;
+                padding: 12px 20px;
+                border-radius: 10px;
+                transition: all 0.3s ease;
+                background: rgba(255, 255, 255, 0.1);
+            }
+
+            .nav-links a:hover {
+                background: rgba(255, 255, 255, 0.2);
+                transform: translateY(-2px);
+            }
+
+            .login-btn {
+                margin: 10px 0;
+                width: 100%;
+                text-align: center;
+            }
+
+            /* Dark mode adjustments for mobile */
+            .dark-mode-toggle, .menu-toggle {
+                color: var(--text-dark);
+            }
+
+            .nav-links a {
+                color: var(--text-dark);
+            }
+        }
+
+        /* Dark Mode Responsive Adjustments */
+        @media (max-width: 576px) and (prefers-color-scheme: dark) {
+            .nav-links {
+                background: #2d2d2d;
+            }
+
+            .nav-links a {
+                color: #ffffff;
+                background: rgba(255, 255, 255, 0.05);
+            }
+
+            .nav-links a:hover {
+                background: rgba(255, 255, 255, 0.1);
+            }
+
+            .dark-mode-toggle, .menu-toggle {
+                color: #ffffff;
+                background: rgba(255, 255, 255, 0.05);
+            }
+
+            .dark-mode-toggle:hover, .menu-toggle:hover {
+                background: rgba(255, 255, 255, 0.1);
+            }
+        }
+
+        /* Features Section */
+        .features-section {
+            padding: 4rem 2rem;
+            background: #f8f9fa;
+        }
+
+        .features-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .feature-box {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+            animation: fadeIn 1s ease-out;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .feature-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .feature-box img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-box:hover img {
+            transform: scale(1.02);
+        }
+
+        .feature-box h3 {
+            color: var(--text-dark);
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+
+        .feature-box p {
+            color: var(--text-light);
+            line-height: 1.6;
+            flex-grow: 1;
+        }
+
+        /* Responsive Design for Features */
+        @media (max-width: 1200px) {
+            .features-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .features-section {
+                padding: 3rem 1.5rem;
+            }
+
+            .features-container {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .feature-box {
+                padding: 1.5rem;
+                margin: 0 0.5rem;
+            }
+
+            .feature-box img {
+                height: 180px;
+            }
+
+            .feature-box h3 {
+                font-size: 1.3rem;
+                margin-bottom: 0.8rem;
+            }
+
+            .feature-box p {
+                font-size: 0.95rem;
+                line-height: 1.5;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .features-section {
+                padding: 2rem 1rem;
+            }
+
+            .features-container {
+                gap: 1.2rem;
+            }
+
+            .feature-box {
+                padding: 1.2rem;
+            }
+
+            .feature-box img {
+                height: 160px;
+            }
+
+            .feature-box h3 {
+                font-size: 1.2rem;
+            }
+
+            .feature-box p {
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Dark Mode Support for Features */
+        @media (prefers-color-scheme: dark) {
+            .features-section {
+                background: rgb(255, 237, 117);
+            }
+
+            .feature-box {
+                background: #ffffff;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+
+            .feature-box h3 {
+                color: var(--text-dark);
+            }
+
+            .feature-box p {
+                color: var(--text-light);
+            }
+        }
+
+        /* Login Page Styles */
+        :root {
+            --primary-blue: #1a73e8;
+            --yellow-bg: rgb(255, 237, 117);
+            --text-dark: #202124;
+            --text-light: #5f6368;
+        }
+
+        body {
+            background: var(--yellow-bg);
+            color: var(--text-dark);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .login-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid var(--primary-blue);
+        }
+
+        .login-header {
+            background: var(--yellow-bg);
+            margin: -2rem -2rem 2rem -2rem;
+            padding: 2rem;
+            border-bottom: 2px solid var(--primary-blue);
+        }
+
+        .login-header img {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 1rem;
+        }
+
+        .login-header h1 {
+            color: var(--text-dark);
+            margin: 0;
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-dark);
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid var(--yellow-bg);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.1);
+        }
+
+        .login-btn {
+            background: var(--primary-blue);
+            color: white;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(26, 115, 232, 0.2);
+        }
+
+        .login-btn:hover {
+            background: #1557b0;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(26, 115, 232, 0.3);
+        }
+
+        .back-to-home {
+            color: var(--primary-blue);
+            text-decoration: none;
+            font-weight: 500;
+            margin-top: 1rem;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+
+        .back-to-home:hover {
+            color: #1557b0;
+            transform: translateX(-5px);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            body {
+                background: var(--yellow-bg);
+            }
+
+            .login-container {
+                background: white;
+                border-color: var(--primary-blue);
+            }
+
+            .login-header {
+                background: var(--yellow-bg);
+                border-color: var(--primary-blue);
+            }
+
+            .form-group input {
+                border-color: var(--yellow-bg);
+                background: white;
+                color: var(--text-dark);
+            }
+
+            .form-group input:focus {
+                border-color: var(--primary-blue);
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <img src="https://github.com/vk-jr/searchcourt/blob/main/logo.png" height="80">
+            </div>
+            <div class="mobile-controls">
+                <button class="dark-mode-toggle" id="darkModeToggle">🌙</button>
+                <button class="menu-toggle" id="menuToggle">☰</button>
+            </div>
+            <div class="nav-links">
+                <a href="#home">Home</a>
+                <a href="#search">Search</a>
+                <a href="#popular">Popular News</a>
+                <a href="#about">About Us</a>
+                <a href="#" id="reportCrime">Report Crime</a>
+                <a href="/login" class="login-btn" id="loginBtn">Login</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Report Crime Modal -->
+    <div class="report-modal" id="reportModal">
+        <div class="report-container">
+            <button class="close-report" id="closeReport">×</button>
+            <div class="upload-section">
+                <h2>Report Crime Anonymously</h2>
+                <p class="upload-text">This data is under Blockchain Technology</p>
+                <div class="upload-area" id="uploadArea">
+                    <i>📄</i>
+                    <p>Drag and drop files here</p>
+                    <p>or</p>
+                    <button style="background: var(--primary-blue); color: white; padding: 10px 20px; border: none; border-radius: 20px; cursor: pointer; margin-top: 10px;">
+                        Choose Files
+                    </button>
+                </div>
+                <input type="file" id="fileInput" multiple>
+                <p class="upload-text">Supported formats: PDF, DOC, DOCX, JPG, PNG</p>
+                
+                <!-- Added text box -->
+                <div style="width: 100%; max-width: 600px; margin-top: 2rem;">
+                    <textarea 
+                        style="width: 100%; 
+                               padding: 15px; 
+                               border: 2px solid var(--primary-blue); 
+                               border-radius: 8px; 
+                               min-height: 100px; 
+                               margin-bottom: 1rem;
+                               font-family: inherit;
+                               resize: vertical;"
+                        placeholder="Add any additional details about the crime report..."
+                    ></textarea>
+                    <button style="background: var(--primary-blue); 
+                                 color: white; 
+                                 padding: 10px 20px; 
+                                 border: none; 
+                                 border-radius: 20px; 
+                                 cursor: pointer;
+                                 width: 100%;">
+                        Submit Report
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <main>
+        <section class="hero-section" id="search">
+            <h1>What can I help with?</h1>
+            <div class="search-container">
+                <input type="text" class="search-box" id="searchInput" placeholder="Search for cases, topics, or legal documents...">
+                <div class="search-results" id="searchResults"></div>
+            </div>
+        </section>
+
+        <section class="features-section" id="popular">
+            <h2 style="text-align: left; margin-bottom: 2rem;">Popular News</h2>
+            <div class="features-container">
+                <div class="feature-box">
+                    <img src="https://github.com/vk-jr/searchcourt/blob/main/ctber%20fraud.jpg" alt="Cyber Fraud Case">
+                    <h3>Cyber Fraud Case</h3>
+                    <p>A major cyber fraud case where hackers stole millions through phishing scams. The accused used advanced AI-generated fake identities to deceive financial institutions.</p>
+                </div>
+                <div class="feature-box">
+                    <img src="https://github.com/vk-jr/searchcourt/blob/main/High%20profile.jpeg" alt="High-Profile Murder Case">
+                    <h3>High-Profile Murder Case</h3>
+                    <p>A sensational murder case where forensic analysis played a key role in identifying the suspect. The judgment set a new legal precedent in homicide cases.</p>
+                </div>
+                <div class="feature-box">
+                    <img src="https://github.com/vk-jr/searchcourt/blob/main/landmark.jpeg" alt="Landmark Corruption Case">
+                    <h3>Landmark Corruption Case</h3>
+                    <p>A landmark corruption case involving high-ranking officials and money laundering. The Supreme Court's ruling introduced stricter regulations for corporate transparency.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer id="about">
+        <div class="footer-content">
+            <div class="footer-info">
+                <h2>TEAM VXM</h2>
+                <div class="social-links">
+                    <a href="#linkedin">LinkedIn</a>
+                    <a href="#twitter">Twitter</a>
+                    <a href="#instagram">Instagram</a>
+                </div>
+            </div>
+            <div class="footer-contact">
+                <h3>Contact Us</h3>
+                <p>Email: support@searchcourt.com</p>
+                <p>Phone: +91 XXXXXXXXXX</p>
+                <p>Address: SearchCourt HQ, Bangalore, India</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Chatbot Interface -->
+    <div class="chatbot-container">
+        <button class="chat-button" id="chatButton">💬</button>
+        <div class="chat-window" id="chatWindow">
+            <div class="chat-header">
+                <h3>SearchCourt Assistant</h3>
+                <button class="close-chat" id="closeChat">×</button>
+            </div>
+            <div class="chat-messages" id="chatMessages">
+                <div class="message bot-message">
+                    Hello! How can I help you with legal information today?
+                </div>
+            </div>
+            <div class="chat-input">
+                <input type="text" id="messageInput" placeholder="Type your message...">
+                <button id="sendMessage">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add this right after the body tag opens -->
+    <div class="result-modal" id="resultModal">
+        <div class="result-container">
+            <button class="close-result" id="closeResult">×</button>
+            <div class="result-content" id="resultContent"></div>
+        </div>
+    </div>
+
+    <script>
+        // Check login state when page loads
+        window.addEventListener('load', function() {
+            const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+            const loginBtn = document.getElementById('loginBtn');
+            
+            if (isLoggedIn) {
+                const userEmail = localStorage.getItem('userEmail');
+                loginBtn.textContent = `Logout (${userEmail})`;
+                loginBtn.href = '#';
+                loginBtn.onclick = function(e) {
+                    e.preventDefault();
+                    localStorage.removeItem('isLoggedIn');
+                    localStorage.removeItem('userEmail');
+                    window.location.reload();
+                };
+            } else {
+                loginBtn.textContent = 'Login';
+                loginBtn.href = '/login';
+                loginBtn.onclick = null;
+            }
+        });
+
+        // Add smooth scroll behavior
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                // Handle home link differently
+                if (this.getAttribute('href') === '#home') {
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                    return;
+                }
+
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                    
+                    // Add blink effect for search section
+                    if (this.getAttribute('href') === '#search') {
+                        const searchBox = document.querySelector('.search-box');
+                        searchBox.style.transition = 'box-shadow 0.5s ease-in-out';
+                        searchBox.style.boxShadow = '0 0 20px rgba(26, 115, 232, 0.8)';
+                        setTimeout(() => {
+                            searchBox.style.boxShadow = '0 1px 6px rgb(245, 213, 8)';
+                        }, 2000);
+                    }
+                }
+            });
+        });
+
+        // Search box animation
+        const searchBox = document.querySelector('.search-box');
+        searchBox.addEventListener('focus', () => {
+            searchBox.style.transform = 'scale(1.02)';
+        });
+        searchBox.addEventListener('blur', () => {
+            searchBox.style.transform = 'scale(1)';
+        });
+
+        // Chatbot functionality
+        const chatButton = document.getElementById('chatButton');
+        const chatWindow = document.getElementById('chatWindow');
+        const closeChat = document.getElementById('closeChat');
+        const messageInput = document.getElementById('messageInput');
+        const sendMessage = document.getElementById('sendMessage');
+        const chatMessages = document.getElementById('chatMessages');
+
+        chatButton.addEventListener('click', () => {
+            chatWindow.classList.add('active');
+        });
+
+        closeChat.addEventListener('click', () => {
+            chatWindow.classList.remove('active');
+        });
+
+        function addMessage(message, isUser = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message');
+            messageDiv.classList.add(isUser ? 'user-message' : 'bot-message');
+            messageDiv.textContent = message;
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // Search functionality
+        const searchInput = document.getElementById('searchInput');
+        const searchResults = document.getElementById('searchResults');
+        const searchContainer = document.querySelector('.search-container');
+        const heroHeading = document.querySelector('.hero-section h1');
+        const resultModal = document.getElementById('resultModal');
+        const resultContent = document.getElementById('resultContent');
+        const closeResult = document.getElementById('closeResult');
+        let searchTimeout;
+
+        // Add click handler for search results
+        searchResults.addEventListener('click', function(e) {
+            const resultItem = e.target.closest('.search-result-item');
+            if (resultItem) {
+                const description = resultItem.querySelector('p').textContent;
+                const category = resultItem.querySelector('small').textContent;
+                
+                // Show detailed content in modal
+                resultContent.innerHTML = `
+                    <h2>${category}</h2>
+                    <div class="result-meta">
+                        <p><strong>Case Number:</strong> ${Math.floor(Math.random() * 1000000)}</p>
+                    </div>
+                    <div class="result-content">
+                        <h3>Case Summary</h3>
+                        <p>${description}</p>
+                        
+                        <h3>Background</h3>
+                        <p>This case involves a significant legal matter that has garnered attention from various legal experts and the general public. The proceedings were conducted over a period of several months, with multiple hearings and extensive documentation.</p>
+                        
+                        <h3>Key Arguments</h3>
+                        <ul>
+                            <li>Detailed analysis of constitutional provisions</li>
+                            <li>Examination of precedent cases</li>
+                            <li>Consideration of public interest</li>
+                            <li>Impact assessment on related legal frameworks</li>
+                        </ul>
+                        
+                        <h3>Court's Decision</h3>
+                        <p>The court, after careful consideration of all arguments and evidence presented, reached a landmark decision that sets an important precedent for future cases of similar nature. The judgment provides comprehensive reasoning and addresses all key aspects of the case.</p>
+                        
+                        <h3>Implications</h3>
+                        <p>This judgment has significant implications for legal practice and sets important guidelines for similar cases in the future. It establishes clear principles that will be referenced in subsequent legal proceedings.</p>
+                        
+                        <div class="result-meta">
+                            <p><strong>Citation:</strong> ${Math.floor(Math.random() * 1000)} SCC ${Math.floor(Math.random() * 1000)}</p>
+                            <p><strong>Status:</strong> Final Judgment</p>
+                            <p><strong>Related Cases:</strong> ${Math.floor(Math.random() * 1000)}/2023, ${Math.floor(Math.random() * 1000)}/2023</p>
+                        </div>
+                    </div>
+                `;
+                
+                resultModal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        });
+
+        // Close result modal
+        closeResult.addEventListener('click', () => {
+            resultModal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+            // Don't hide search results
+        });
+
+        // Close modal when clicking outside
+        resultModal.addEventListener('click', (e) => {
+            if (e.target === resultModal) {
+                resultModal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+                // Don't hide search results
+            }
+        });
+
+        searchInput.addEventListener('input', function() {
+            clearTimeout(searchTimeout);
+            const query = this.value.trim();
+            
+            if (query.length < 2) {
+                searchResults.style.display = 'none';
+                searchResults.classList.remove('active');
+                searchContainer.style.transform = 'translateY(0)';
+                heroHeading.style.display = 'block';
+                return;
+            }
+
+            // Hide heading and animate search container up
+            heroHeading.style.display = 'none';
+            searchContainer.style.transform = 'translateY(-150px)';
+            searchResults.style.display = 'block';
+            setTimeout(() => searchResults.classList.add('active'), 10);
+
+            searchTimeout = setTimeout(() => {
+                fetch(`/search?q=${encodeURIComponent(query)}`)
+                    .then(response => response.json())
+                    .then(results => {
+                        searchResults.innerHTML = '';
+                        if (results.length > 0) {
+                            results.forEach(result => {
+                                const div = document.createElement('div');
+                                div.className = 'search-result-item';
+                                div.innerHTML = `
+                                    <p>${result.description}</p>
+                                    <small>Category: ${result.category}</small>
+                                `;
+                                searchResults.appendChild(div);
+                            });
+                        } else {
+                            searchResults.style.display = 'none';
+                            searchResults.classList.remove('active');
+                            searchContainer.style.transform = 'translateY(0)';
+                            heroHeading.style.display = 'block';
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        searchResults.style.display = 'none';
+                        searchResults.classList.remove('active');
+                        searchContainer.style.transform = 'translateY(0)';
+                        heroHeading.style.display = 'block';
+                    });
+            }, 300);
+        });
+
+        // Reset search container position when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!searchInput.contains(e.target) && !searchResults.contains(e.target) && !resultModal.contains(e.target)) {
+                searchResults.style.display = 'none';
+                searchResults.classList.remove('active');
+                searchContainer.style.transform = 'translateY(0)';
+                heroHeading.style.display = 'block';
+            }
+        });
+
+        // Chatbot message handling
+        function handleUserMessage() {
+            const message = messageInput.value.trim();
+            if (message) {
+                addMessage(message, true);
+                messageInput.value = '';
+                
+                fetch('/chatbot', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ message: message })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    addMessage(data.response);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    addMessage('Sorry, I encountered an error. Please try again.');
+                });
+            }
+        }
+
+        sendMessage.addEventListener('click', handleUserMessage);
+        messageInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                handleUserMessage();
+            }
+        });
+
+        // Report Crime Modal Functionality
+        const reportCrime = document.getElementById('reportCrime');
+        const reportModal = document.getElementById('reportModal');
+        const closeReport = document.getElementById('closeReport');
+        const uploadArea = document.getElementById('uploadArea');
+        const fileInput = document.getElementById('fileInput');
+
+        reportCrime.addEventListener('click', (e) => {
+            e.preventDefault();
+            reportModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+
+        closeReport.addEventListener('click', () => {
+            reportModal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        });
+
+        uploadArea.addEventListener('click', () => {
+            fileInput.click();
+        });
+
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.style.background = '#f0f7ff';
+        });
+
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.style.background = 'white';
+        });
+
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.style.background = 'white';
+            const files = e.dataTransfer.files;
+            handleFiles(files);
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            const files = e.target.files;
+            handleFiles(files);
+        });
+
+        function handleFiles(files) {
+            // Here you can implement the file upload logic
+            console.log('Files to upload:', files);
+            // Add your file upload implementation here
+        }
+
+        // Add GSAP for scroll animations
+        const script = document.createElement('script');
+        script.src = 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js';
+        script.onload = () => {
+            // Typewriter effect for hero text
+            const heroText = document.querySelector('.hero-section h1');
+            const text = heroText.textContent;
+            heroText.textContent = '';
+            let i = 0;
+            
+            function typeWriter() {
+                if (i < text.length) {
+                    heroText.textContent += text.charAt(i);
+                    i++;
+                    setTimeout(typeWriter, 100);
+                }
+            }
+            typeWriter();
+        };
+        document.head.appendChild(script);
+
+        // Dark mode toggle
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        let isDarkMode = false;
+        darkModeToggle.addEventListener('click', () => {
+            isDarkMode = !isDarkMode;
+            document.body.style.transition = 'all 0.3s ease';
+            if (isDarkMode) {
+                document.body.style.backgroundColor = '#1a1a1a';
+                document.body.style.color = '#ffffff';
+                darkModeToggle.innerHTML = '☀️';
+                
+                // Update header
+                document.querySelector('header').style.backgroundColor = '#2d2d2d';
+                
+                // Update search box and results
+                document.querySelector('.search-box').style.backgroundColor = '#2d2d2d';
+                document.querySelector('.search-box').style.color = '#ffffff';
+                document.querySelector('.search-box').style.borderColor = '#404040';
+                
+                // Update feature boxes
+                document.querySelectorAll('.feature-box').forEach(el => {
+                    el.style.backgroundColor = '#2d2d2d';
+                    el.style.color = '#ffffff';
+                    el.style.boxShadow = '0 2px 4px rgba(0,0,0,0.3)';
+                });
+                
+                // Update footer
+                document.querySelector('footer').style.backgroundColor = '#2d2d2d';
+                
+                // Update chat window
+                document.querySelector('.chat-window').style.backgroundColor = '#2d2d2d';
+                document.querySelector('.chat-header').style.backgroundColor = '#404040';
+                document.querySelector('.chat-messages').style.backgroundColor = '#2d2d2d';
+                document.querySelector('.chat-input').style.backgroundColor = '#2d2d2d';
+                document.querySelector('.chat-input input').style.backgroundColor = '#404040';
+                document.querySelector('.chat-input input').style.color = '#ffffff';
+                
+                // Update modals
+                document.querySelectorAll('.result-modal, .report-modal').forEach(modal => {
+                    modal.style.backgroundColor = 'rgba(0, 0, 0, 0.9)';
+                });
+                document.querySelectorAll('.result-container, .report-container').forEach(container => {
+                    container.style.backgroundColor = '#2d2d2d';
+                    container.style.color = '#ffffff';
+                });
+                
+                // Update search results
+                document.querySelector('.search-results').style.backgroundColor = '#2d2d2d';
+                document.querySelector('.search-results').style.color = '#ffffff';
+                document.querySelectorAll('.search-result-item').forEach(item => {
+                    item.style.backgroundColor = '#404040';
+                    item.style.color = '#ffffff';
+                });
+                
+                // Update links
+                document.querySelectorAll('.nav-links a').forEach(link => {
+                    link.style.color = '#ffffff';
+                });
+                
+                // Update text colors
+                document.querySelectorAll('h1, h2, h3').forEach(heading => {
+                    heading.style.color = '#ffffff';
+                });
+                
+                // Update meta text
+                document.querySelectorAll('.result-meta, .upload-text').forEach(text => {
+                    text.style.color = '#b0b0b0';
+                });
+            } else {
+                document.body.style.backgroundColor = 'white';
+                document.body.style.color = 'var(--text-dark)';
+                darkModeToggle.innerHTML = '🌙';
+                
+                // Reset header
+                document.querySelector('header').style.backgroundColor = 'rgb(255, 237, 117)';
+                
+                // Reset search box and results
+                document.querySelector('.search-box').style.backgroundColor = '#ffffff';
+                document.querySelector('.search-box').style.color = 'var(--text-dark)';
+                document.querySelector('.search-box').style.borderColor = '#dfe1e5';
+                
+                // Reset feature boxes
+                document.querySelectorAll('.feature-box').forEach(el => {
+                    el.style.backgroundColor = '#ffffff';
+                    el.style.color = 'var(--text-dark)';
+                    el.style.boxShadow = '0 2px 4px rgba(0,0,0,0.1)';
+                });
+                
+                // Reset footer
+                document.querySelector('footer').style.backgroundColor = 'rgb(255, 237, 117)';
+                
+                // Reset chat window
+                document.querySelector('.chat-window').style.backgroundColor = '#ffffff';
+                document.querySelector('.chat-header').style.backgroundColor = 'var(--primary-blue)';
+                document.querySelector('.chat-messages').style.backgroundColor = '#ffffff';
+                document.querySelector('.chat-input').style.backgroundColor = '#ffffff';
+                document.querySelector('.chat-input input').style.backgroundColor = '#ffffff';
+                document.querySelector('.chat-input input').style.color = 'var(--text-dark)';
+                
+                // Reset modals
+                document.querySelectorAll('.result-modal, .report-modal').forEach(modal => {
+                    modal.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
+                });
+                document.querySelectorAll('.result-container, .report-container').forEach(container => {
+                    container.style.backgroundColor = '#ffffff';
+                    container.style.color = 'var(--text-dark)';
+                });
+                
+                // Reset search results
+                document.querySelector('.search-results').style.backgroundColor = '#ffffff';
+                document.querySelector('.search-results').style.color = 'var(--text-dark)';
+                document.querySelectorAll('.search-result-item').forEach(item => {
+                    item.style.backgroundColor = '#ffffff';
+                    item.style.color = 'var(--text-dark)';
+                });
+                
+                // Reset links
+                document.querySelectorAll('.nav-links a').forEach(link => {
+                    link.style.color = 'var(--text-dark)';
+                });
+                
+                // Reset text colors
+                document.querySelectorAll('h1, h2, h3').forEach(heading => {
+                    heading.style.color = 'var(--text-dark)';
+                });
+                
+                // Reset meta text
+                document.querySelectorAll('.result-meta, .upload-text').forEach(text => {
+                    text.style.color = 'var(--text-light)';
+                });
+            }
+        });
+
+        // Enhanced hover animations
+        document.querySelectorAll('button, .nav-links a').forEach(el => {
+            el.style.transition = 'all 0.3s ease';
+            el.addEventListener('mouseenter', () => {
+                el.style.transform = 'scale(1.05)';
+            });
+            el.addEventListener('mouseleave', () => {
+                el.style.transform = 'scale(1)';
+            });
+        });
+
+        // Add mobile menu functionality
+        const menuToggle = document.getElementById('menuToggle');
+        const navLinks = document.querySelector('.nav-links');
+
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!navLinks.contains(e.target) && !menuToggle.contains(e.target)) {
+                navLinks.classList.remove('active');
+            }
+        });
+
+        // Close mobile menu when clicking a link
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+            });
+        });
+    </script>
+</body>
+</html>

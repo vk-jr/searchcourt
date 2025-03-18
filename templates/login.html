@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - SearchCourt</title>
+    <style>
+        :root {
+            --primary-blue: #1a73e8;
+            --text-dark: #202124;
+            --text-light: #5f6368;
+            --yellow-bg: rgb(255, 237, 117);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: var(--yellow-bg);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .login-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+            animation: slideUp 0.5s ease-out;
+            border: 2px solid var(--primary-blue);
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            background: var(--yellow-bg);
+            padding: 1rem;
+            border-radius: 8px;
+        }
+
+        .login-header img {
+            height: 80px;
+            margin-bottom: 1rem;
+        }
+
+        .login-header h1 {
+            color: var(--text-dark);
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .login-header p {
+            color: var(--text-dark);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-dark);
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 2px solid var(--yellow-bg);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.1);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 0.8rem;
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .login-btn:hover {
+            background: #1557b0;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(26, 115, 232, 0.2);
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 1.5rem;
+            color: var(--text-dark);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+            font-weight: 500;
+        }
+
+        .back-link:hover {
+            color: var(--primary-blue);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 480px) {
+            .login-container {
+                padding: 1.5rem;
+            }
+
+            .login-header h1 {
+                font-size: 1.5rem;
+            }
+
+            .login-header img {
+                height: 60px;
+            }
+        }
+
+        /* Dark Mode Support */
+        @media (prefers-color-scheme: dark) {
+            body {
+                background: #1a1a1a;
+            }
+
+            .login-container {
+                background: #2d2d2d;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+                border-color: var(--primary-blue);
+            }
+
+            .login-header {
+                background: #404040;
+            }
+
+            .login-header h1 {
+                color: #ffffff;
+            }
+
+            .login-header p {
+                color: #ffffff;
+            }
+
+            .form-group label {
+                color: #ffffff;
+            }
+
+            .form-group input {
+                background: #404040;
+                border-color: #404040;
+                color: #ffffff;
+            }
+
+            .form-group input:focus {
+                border-color: var(--primary-blue);
+                box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.2);
+            }
+
+            .back-link {
+                color: #ffffff;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-header">
+            <img src="https://raw.githubusercontent.com/vk-jr/searchcourt/main/logo.png" alt="SearchCourt Logo">
+            <h1>Welcome Back</h1>
+            <p>Please sign in to your account</p>
+        </div>
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" required placeholder="Enter your email">
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required placeholder="Enter your password">
+            </div>
+            <button type="submit" class="login-btn">Sign In</button>
+        </form>
+        <a href="/" class="back-link">← Back to Home</a>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            // Here you would typically make an API call to your backend
+            // For now, we'll just simulate a successful login
+            localStorage.setItem('isLoggedIn', 'true');
+            localStorage.setItem('userEmail', email);
+            
+            // Redirect back to home page
+            window.location.href = '/';
+        });
+    </script>
+</body>
+</html> 
