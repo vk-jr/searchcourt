@@ -1,6 +1,7 @@
 from flask import Flask, render_template, jsonify, request
 import sqlite3
- import os
+import os
+
 app = Flask(__name__)
 
 db_path = "documents.db"
