@@ -1,6 +1,6 @@
 from flask import Flask, render_template, jsonify, request
 import sqlite3
-
+ import os
 app = Flask(__name__)
 
 db_path = "documents.db"
@@ -61,4 +61,6 @@ def chatbot():
     return jsonify({"response": f"You said: {message}"})
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 10000))  # Use Render's PORT
+    app.run(host="0.0.0.0", port=port, debug=True)
+
